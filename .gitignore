@@ -1,0 +1,6 @@
+*
+
+# ignore except this files
+!.gitignore
+!ILovePdfAuth.py
+!fileConvertor.py
