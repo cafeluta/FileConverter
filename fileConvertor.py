@@ -10,7 +10,7 @@ def word_to_pdf(auth, filePath):
     server = task_data['server']
     task_id = task_data['task']
 
-    print(f"💻 App working on server: {server} with task {task_id[:10]} ...")
+    print(f"\n\n💻 App working on server: {server} with task {task_id[:10]} ...")
 
     # UPLOAD STAGE
     upload_url = f"https://{server}/v1/upload"
@@ -31,7 +31,7 @@ def word_to_pdf(auth, filePath):
     upload_response = requests.post(upload_url, headers=headers, data=upload_data, files=files)
     server_filename = upload_response.json()['server_filename']
 
-    print(f"⚙️Upload Status: {upload_response.status_code}, text: {upload_response.text}")
+    print(f"\n\n⚙️Upload Status: {upload_response.status_code}, text: {upload_response.text}")
     print(f"‼️ Uploaded Server Filename: {server_filename[:10]}")
 
     # PROCESS STAGE
@@ -48,11 +48,25 @@ def word_to_pdf(auth, filePath):
     }
 
     process_response = requests.post(process_url, headers=headers, json=process_data)
+    download_filename = process_response.json()['download_filename']
 
-    print(f"⚙️Process Status: {process_response.status_code}, text: {process_response.text}")
+    print(f"\n\n⚙️Process Status: {process_response.status_code}, text: {process_response.text}")
+
+    # DOWNLOAD STAGE
+    download_url = f"https://{server}/v1/download/{task_id}"
+
+    download_response = requests.get(download_url, headers=headers)
+
+    print(f"\n\n⚙️Download Status: {download_response.status_code}")
+
+    # creating the new file
+    with open(f"./Documents/{download_filename}", "wb") as f:
+        f.write(download_response.content)
+        print(f"\n ‼️Finished downloading file: {download_filename}")
 
 
-wordFilePath = Path('./Documents/Test.docx')
+
+wordFilePath = Path('./Documents/repartizare.docx')
 
 # authetication instance and test
 auth = ILovePDFAuth()
