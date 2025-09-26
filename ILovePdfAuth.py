@@ -58,7 +58,7 @@ class ILovePDFAuth:
             print(f"❌Authentication needed first")
             return None
 
-        start_url = f"{self.base_url}/start/{task_type}"
+        start_url = f"{self.base_url}/start/{task_type}/eu"
 
         # request headers
         headers = {
@@ -113,23 +113,22 @@ class ILovePDFAuth:
         if successful_tasks:
             print(f"✅ Working tasks: {', '.join(successful_tasks)}")
 
-def main():
+def test_authentication():
     print("=== iLovePDF API Authentication Test ===")
     print(f"Using PUBLIC_KEY: {PUBLIC_KEY[:15]}...")
     print(f"SECRET_KEY length: {len(SECRET_KEY)}")
     
-    # Creează instanța de autentificare
+    # Create the authentication instance
     api = ILovePDFAuth()
     
-    # Pas 1: Autentifică
     if api.authenticate():
         
-        # Pas 2: Testează un task simplu
+        # Basic task test
         print("\n" + "="*50)
         print("Testing basic task:")
         api.start_task("compress")
         
-        # Pas 3: Testează multiple task-uri
+        # Multiple task test
         api.test_multiple_tasks()
     
     else:
@@ -140,4 +139,4 @@ def main():
         print("4. Try regenerating your API keys")
 
 if __name__ == "__main__":
-    main()
+    test_authentication()
