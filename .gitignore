@@ -4,4 +4,5 @@
 !.gitignore
 !ILovePdfAuth.py
 !fileConvertor.py
-!Documents/.gitkeep
+!README.md
+!requirements.txt
