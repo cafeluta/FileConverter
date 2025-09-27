@@ -3,6 +3,7 @@ import json
 
 from pathlib import Path 
 from ILovePdfAuth import *
+from tkinter import Tk, filedialog
 
 def word_to_pdf(auth, filePath):
     # we need a server from the api for officepdf
@@ -42,7 +43,7 @@ def word_to_pdf(auth, filePath):
         'files' : [
             {
                 'server_filename' : server_filename,
-                'filename': Path(wordFilePath).name
+                'filename': Path(filePath).name
             }
         ]
     }
@@ -66,12 +67,20 @@ def word_to_pdf(auth, filePath):
 
 
 
-wordFilePath = Path('./Documents/repartizare.docx')
 
-# authetication instance and test
-auth = ILovePDFAuth()
-auth.authenticate()
-# auth.test_multiple_tasks()
+if __name__ == "__main__":
+    # open a dialog for the user to choose a file to be converted
+    Tk().withdraw()  # hides the main window of tk
+    filePath = filedialog.askopenfilename(
+        title="Select a Word document to transform in PDF",
+        filetypes=[("Word files", "*.docx *.doc")]
+    )
 
-print(50 * "=", "\n ‼️ FINISHED TESTING \n", 50 * "=")
-word_to_pdf(auth, wordFilePath)
+    if not filePath:
+        print("❌ U haven't made a selection yet.")
+        exit()
+
+    # autheticate and conversion
+    auth = ILovePDFAuth()
+    auth.authenticate()
+    word_to_pdf(auth, filePath)
