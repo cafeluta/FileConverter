@@ -10,7 +10,7 @@ Install the required packages:
 pip install requests
 ```
 
-Or use the `requirements.txt` file (if available):
+Or use the `requirements.txt` file
 ```bash
 pip install -r requirements.txt
 ```
